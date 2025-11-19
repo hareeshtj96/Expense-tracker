@@ -44,6 +44,19 @@ export default function Dashboard() {
     setCategoryEditOpen(true);
   };
 
+  useEffect(() => {
+    // Manipulate the history stack
+    window.history.pushState(null, document.title, window.location.href);
+
+    const handlePopState = (event) => {};
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
   // Load categories
   useEffect(() => {
     let mounted = true;

@@ -63,9 +63,6 @@ export default function LoginPage() {
       toast.success("Login Successful!");
 
       navigate("/dashboard", { replace: true });
-      try {
-        window.history.replaceState(null, "", "/dashboard");
-      } catch (err) {}
     } catch (error) {
       console.error("Error while login:", error);
       toast.error("Error occured while logging in.");
