@@ -11,7 +11,7 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 6000;
 
-const allowedOrigins = process.env.CLIENT_URLS.split(",");
+const allowedOrigins = process.env.CLIENT_URLS.split(",").map(url => url.trim());
 
 // Middlewares
 const corsOptions = {
@@ -28,6 +28,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
