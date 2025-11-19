@@ -15,6 +15,29 @@ export default function LoginPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Check if already logged in on mount
+  useEffect(() => {
+    let mounted = true;
+    (async function checkAuth() {
+      try {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/auth/verify`, {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!mounted) return;
+        if (res.ok) {
+          // already authenticated -> go to dashboard
+          navigate("/dashboard", { replace: true });
+        }
+      } catch (err) {
+        // not logged in or verify failed -> stay on login
+      }
+    })();
+    return () => {
+      mounted = false;
+    };
+  }, [navigate]);
+
   const handleChange = (e) => {
     setFormData((s) => ({ ...s, [e.target.name]: e.target.value }));
     setErrors((prev) => ({ ...prev, [e.target.name]: null }));
